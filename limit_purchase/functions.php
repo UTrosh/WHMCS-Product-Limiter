@@ -24,7 +24,7 @@ class limit_purchase
 		{
 			$this->config[$config_details['name']] = $config_details['value'];
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
 
 	function setConfig($name, $value)
@@ -32,14 +32,14 @@ class limit_purchase
 		if(isset($this->config[$name]))
 		{
 			$sql = "UPDATE mod_limit_purchase_config
-				SET value = '" . mysql_escape_string($value) . "'
-				WHERE name = '" . mysql_escape_string($name) . "'";
+				SET value = '" . mysqli_real_escape_string($value) . "'
+				WHERE name = '" . mysqli_real_escape_string($name) . "'";
 			$result = mysql_query($sql);
 		}
 		else
 		{
 			$sql = "INSERT INTO mod_limit_purchase_config (`name`,`value`) VALUES
-				('" . mysql_escape_string($name) . "','" . mysql_escape_string($value) . "')";
+				('" . mysqli_real_escape_string($name) . "','" . mysqli_real_escape_string($value) . "')";
 			$result = mysql_query($sql);
 		}
 
@@ -61,7 +61,7 @@ class limit_purchase
 		{
 			$output[$limits['product_id']] = array('limit' => $limits['limit'], 'error' => $limits['error']);
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		return $output;
 	}
