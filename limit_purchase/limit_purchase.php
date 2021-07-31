@@ -6,11 +6,11 @@ if (!defined("WHMCS"))
 function limit_purchase_config() 
 {
 	return array(
-		"name" 		=> "Product Limiter",
+		"name" 		=> "Product Limiter remastered",
 		"description" 	=> "This addon allows you to limit the purchase of an products/services for each client",
-		"version" 	=> "1.0.5",
-		"author" 	=> "Idan Ben-Ezra",
-		"language" 	=> "english",
+		"version" 	=> "1.0.0",
+		"author" 	=> "Idan Ben-Ezra - remaster : utrosh",
+		"language" 	=> "french",
 	);
 }
 
@@ -140,7 +140,7 @@ function limit_purchase_output($vars)
 	$product_id 	= intval($_REQUEST['product_id']);
 	$id 		= intval($_REQUEST['id']);
 	$limit 		= intval($_REQUEST['limit']);
-	$error 		= mysql_escape_string($_REQUEST['error']);
+	$error 		= mysqli_real_escape_string($_REQUEST['error']);
 	$active 	= intval($_REQUEST['active']);
 
 	$manage_details = array();
@@ -211,10 +211,10 @@ function limit_purchase_output($vars)
 
 					if(!$limit_details)
 					{
-						if($limit > 0 && $error)
+						if($limit > 0 )
 						{
 							$sql = "INSERT INTO mod_limit_purchase (`product_id`,`limit`,`error`,`active`) VALUES
-								('{$product_id}','{$limit}','{$error}','" . ($active ? 1 : 0) . "')";
+								('{$product_id}','{$limit}','Vous avez déja un service !','" . ($active ? 1 : 0) . "')";
 							mysql_query($sql);
 
 							$_SESSION['limit_purchase'] = array(
@@ -225,9 +225,9 @@ function limit_purchase_output($vars)
 						else
 						{
 							$errors = array();
-
+if(!$error) $errors[] = '&bull; ' . $vars['_lang']['limit'];
 							if(!$limit) $errors[] = '&bull; ' . $vars['_lang']['limit'];
-							if(!$error) $errors[] = '&bull; ' . $vars['_lang']['errormessage'];
+							
 
 							$_SESSION['limit_purchase'] = array(
 								'type'		=> 'error',
@@ -448,7 +448,7 @@ function limit_purchase_output($vars)
 			$limits[] = array_merge($row, array('product_details' => $product));
 		}
 	}
-	mysql_free_result($result);
+	mysqli_free_result($result);
 
 	if(isset($_SESSION['limit_purchase']))
 	{
@@ -472,7 +472,7 @@ function limit_purchase_output($vars)
 	{
 		$products[] = $product_details;
 	}
-	mysql_free_result($result);
+	mysqli_free_result($result);
 
 ?>
 	<h2><?php echo (sizeof($manage_details) ? $vars['_lang']['editlimit'] : $vars['_lang']['addlimit']); ?></h2>
