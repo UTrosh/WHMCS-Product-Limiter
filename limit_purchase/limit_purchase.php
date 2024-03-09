@@ -11,7 +11,7 @@ function limit_purchase_config()
     return array(
         "name" => "Product Limiter remastered",
         "description" => "This addon allows you to limit the purchase of an products/services for each client",
-        "version" => "1.0.0",
+        "version" => "1.0.1",
         "author" => "Idan Ben-Ezra - remaster : utrosh",
         "language" => "english",
     );
