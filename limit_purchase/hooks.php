@@ -9,7 +9,7 @@ function limit_purchase($vars)
 {
 	$errors = array();
 
-	$lp = new limit_purchase;
+	$lp = new LimitPurchase;
 
 	$pids = $lp->getLimitedProducts();
 	$user_id = intval($_SESSION['uid']);
